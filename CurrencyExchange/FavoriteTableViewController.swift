@@ -26,7 +26,7 @@ class FavoriteTableViewController: UITableViewController {
         view.addGestureRecognizer(swipeRight)
 
         // Uncomment the following line to preserve selection between presentations
-        self.clearsSelectionOnViewWillAppear = false
+        //self.clearsSelectionOnViewWillAppear = false
 
     }
 
