@@ -11,47 +11,50 @@ import UIKit
 class CurrencyViewController: UIViewController {
 
     // MARK: outlets
-    @IBOutlet weak var domesticPicker: UIPickerView!
-    @IBOutlet weak var foreignPicker: UIPickerView!
+    @IBOutlet weak var currencyPicker: UIPickerView!
     
     @IBOutlet weak var convertTextField: UITextField!
     @IBOutlet weak var resultLabel: UILabel!
     
     // MARK: variables
-    var currencies = Currency.list.shared.cur
+    var currencies = Currency.list.shared.currencies
     
     var domesticCurrency:String = ""
     var foreignCurrency:String = ""
     
-    var domesticCurrencyARR:[String] = [""]
-    var foreignCurrencyARR:[String] = [""]
+    var domesticCurrencyArray:[String] = [""]
+    var foreignCurrencyArray:[String] = [""]
     
-    var currentSelection: String = ""
-
+    var currency = [String]()
+    var currencyDict = [String:String]()
     
     override func viewDidLoad() {
+       
+        for i in currencies {
+            if i.check == true {
+                currency.append(i.name)
+            }
+        }
+        
         super.viewDidLoad()
+        
+        currencyDict = getData()
+        
+        
+        
         
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
         swipeLeft.direction = .left
         view.addGestureRecognizer(swipeLeft)
         
         convertTextField.keyboardType = UIKeyboardType.numberPad
-        
-        // Do any additional setup after loading the view.
-        
-        
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
-        getData()
         
         
-        
-        self.domesticPicker.reloadAllComponents()
+    
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -76,14 +79,86 @@ class CurrencyViewController: UIViewController {
     
     // MARK: Picker Functions
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?{
-        currentSelection = Data.pickerData[row]
-        return Data.pickerData[row]
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if(component == 0) {
+            return domesticCurrencyArray[row]
+        }
+        else {
+            return foreignCurrencyArray[row]
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if(component == 0) {
+            return self.domesticCurrencyArray.count
+        }
+        else {
+            return self.foreignCurrencyArray.count
+        }
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 2
     }
     
     
     
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if(component == 0) {
+            switch(row) {
+            case 0:
+                self.domesticCurrency = domesticCurrencyArray[row]
+            case 1:
+                self.domesticCurrency = domesticCurrencyArray[row]
+            case 2:
+                self.domesticCurrency = domesticCurrencyArray[row]
+            default:
+                self.domesticCurrency = domesticCurrencyArray[row]
+            }
+        }
+        if(component == 1) {
+            switch(row) {
+            case 0:
+                self.foreignCurrency = foreignCurrencyArray[row]
+            case 1:
+                self.foreignCurrency = foreignCurrencyArray[row]
+            case 2:
+                self.foreignCurrency = foreignCurrencyArray[row]
+            default:
+                self.foreignCurrency = foreignCurrencyArray[row]
+            }
+        }
+    
+    }
+    
     // MARK: USER Functions
+    
+    func getData() -> Dictionary<String,String> {
+        let myYQL = YQL()
+        let queryString = "select * from yahoo.finance.xchange where pair in (\"CADCAD\", \"CADCNY\", \"CADEUR\", \"CADGBP\", \"CADJPY\", \"CADUSD\", \"CNYCAD\", \"CNYCNY\", \"CNYEUR\", \"CNYGBP\", \"CNYJPY\", \"CNYUSD\", \"EURCAD\", \"EURCNY\", \"EUREUR\", \"EURGBP\", \"EURJPY\", \"EURUSD\", \"GBPCAD\", \"GBPCNY\", \"GBPEUR\", \"GBPGBP\", \"GBPJPY\", \"GBPUSD\", \"JPYCAD\", \"JPYCNY\", \"JPYEUR\", \"JPYGBP\", \"JPYJPY\", \"JPYUSD\", \"USDCAD\", \"USDCNY\", \"USDEUR\", \"USDGBP\", \"USDJPY\", \"USDUSD\")"
+        
+        var currencyDict = [String:String]()
+        
+        // Network session is asyncronous so use a closure to act upon data once data is returned
+        myYQL.query(queryString) { jsonDict in
+            // With the resulting jsonDict, pull values out
+            // jsonDict["query"] results in an Any? object
+            // to extract data, cast to a new dictionary (or other data type)
+            // repeat this process to pull out more specific information
+            let queryDict = jsonDict["query"] as! [String: Any]
+            let resultsDict = queryDict["results"] as! [String: Any]
+            let rateArray = resultsDict["rate"] as! [Any]
+            for i in 0..<rateArray.count {
+                let rateDict = rateArray[i] as! [String: Any]
+                let name = rateDict["id"] as! String
+                let rate = rateDict["Rate"] as! String
+                currencyDict.updateValue(rate, forKey: name)
+                
+            }
+        }
+        return currencyDict
+    }
+    
     func handleSwipe(_ sender: UIGestureRecognizer) {
         self.performSegue(withIdentifier: "Currency", sender: self)
     }
@@ -100,7 +175,7 @@ class CurrencyViewController: UIViewController {
             let domesticValue = removeSpecialCharsFromString(convertTextField.text!)
             if(domesticValue != "") {
                 foreignValue = Float(domesticValue)!
-                let rate = self.data._exchangeRateDict[domForString]!
+                let rate: Float = Float(currencyDict[domForString]!)!
                 foreignValue = foreignValue * rate
                 
                 let foreignValueString = String.localizedStringWithFormat("%.2f %@",foreignValue,"")
@@ -111,45 +186,15 @@ class CurrencyViewController: UIViewController {
             }
             else{
                 convertTextField.text! = "Invalid Entry"
-                resultLabel.text! = "No result"
+                resultLabel.text! = "Enter a valid value to be converted"
             }
+        }
+        else {
+            convertTextField.text! = ""
+            resultLabel.text! = "Enter a value to be converted"
         }
     }
 
-    func getData(){
-        let myYQL = YQL()
-        let queryString = "select * from yahoo.finance.xchange where pair in (\"CADCAD\", \"CADCNY\", \"CADEUR\", \"CADGBP\", \"CADJPY\", \"CADUSD\", \"CNYCAD\", \"CNYCNY\", \"CNYEUR\", \"CNYGBP\", \"CNYJPY\", \"CNYUSD\", \"EURCAD\", \"EURCNY\", \"EUREUR\", \"EURGBP\", \"EURJPY\", \"EURUSD\", \"GBPCAD\", \"GBPCNY\", \"GBPEUR\", \"GBPGBP\", \"GBPJPY\", \"GBPUSD\", \"JPYCAD\", \"JPYCNY\", \"JPYEUR\", \"JPYGBP\", \"JPYJPY\", \"JPYUSD\", \"USDCAD\", \"USDCNY\", \"USDEUR\", \"USDGBP\", \"USDJPY\", \"USDUSD\")"
-    
-        // Network session is asyncronous so use a closure to act upon data once data is returned
-        myYQL.query(queryString) { jsonDict in
-            // With the resulting jsonDict, pull values out
-            // jsonDict["query"] results in an Any? object
-            // to extract data, cast to a new dictionary (or other data type)
-            // repeat this process to pull out more specific information
-            let queryDict = jsonDict["query"] as! [String: Any]
-            //let rateDict = queryDict["rate"] as! [String: Any]
-            //print(queryDict["count"]!)
-            //print(queryDict["results"]!)
-            //print(rateDict["Rate"]!)
-            let result = queryDict["results"]! as! [String: Any]
-            let rate = result["rate"]! as! [[String: Any]]
-            
-            var index = 0
-            
-            for _ in 0..<36 {
-                let name = rate[index]["id"] as! [String: Any]
-                
-                if let rat = rate[index]["Rate"]! as? String {
-                    let ratFloat = Float(rat)
-                    
-                    self.data._rates.append(ratFloat!)
-                    self.data._exchangeRateDict[name] = ratFloat!
-                }
-                index = index + 1
-            }
-        }
-    }
-    
     //remove invalid characters (eg non-numerical)
     func removeSpecialCharsFromString(_ text: String) -> String {
         let validChars : Set<Character> = Set("0123456789".characters)

@@ -16,7 +16,7 @@ class FavoriteTableViewController: UITableViewController {
     
     // MARK: variables
     weak var delegate: displayCurrencies? = nil
-    var currencies = Currency.list.shared.cur
+    var currencies = Currency.list.shared.currencies
 
     override func viewDidLoad() {
         super.viewDidLoad()

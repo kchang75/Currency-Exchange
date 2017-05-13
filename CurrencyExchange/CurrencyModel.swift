@@ -24,7 +24,7 @@ class Currency {
     }
     
     class list {
-        var cur = [Currency(name: "US Dollar", check: true, isoCode: "USD", symbol: "\u{0024}"), Currency(name: "British Pound", check: true, isoCode: "GBP", symbol: "\u{00A3}"), Currency(name: "Japanese Yen", check: true, isoCode: "JPY", symbol: "\u{00A5}"), Currency(name: "Canadian Dollar", check: false, isoCode: "CAD", symbol: "\u{0024}"), Currency(name: "Chinese Yuan", check: false, isoCode: "CHY", symbol: "\u{00A5}"),  Currency(name: "Euro", check: false, isoCode: "EUR",symbol: "\u{20AC}")]
+        var currencies = [Currency(name: "US Dollar", check: true, isoCode: "USD", symbol: "\u{0024}"), Currency(name: "British Pound", check: true, isoCode: "GBP", symbol: "\u{00A3}"), Currency(name: "Japanese Yen", check: true, isoCode: "JPY", symbol: "\u{00A5}"), Currency(name: "Canadian Dollar", check: false, isoCode: "CAD", symbol: "\u{0024}"), Currency(name: "Chinese Yuan", check: false, isoCode: "CHY", symbol: "\u{00A5}"),  Currency(name: "Euro", check: false, isoCode: "EUR",symbol: "\u{20AC}")]
     
         static let shared:list = list()
     }

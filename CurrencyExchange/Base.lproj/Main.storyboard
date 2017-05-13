@@ -23,7 +23,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hgv-ex-fhR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="230" y="881"/>
+            <point key="canvasLocation" x="434" y="879"/>
         </scene>
         <!--Currency Exchange-->
         <scene sceneID="qqJ-Vl-7yM">
@@ -38,25 +38,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Domestic Currency" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lge-T9-kE1">
-                                <rect key="frame" x="94" y="72" width="187" height="21"/>
+                                <rect key="frame" x="0.0" y="72" width="187" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZnA-IX-jej" userLabel="DomesticPicker">
-                                <rect key="frame" x="0.0" y="101" width="375" height="126"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            </pickerView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Foreign Currency" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NuS-9j-epH">
-                                <rect key="frame" x="94" y="235" width="187" height="21"/>
+                                <rect key="frame" x="188" y="72" width="187" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="by5-eR-vYD" userLabel="ForeignPicker">
-                                <rect key="frame" x="0.0" y="270" width="375" height="126"/>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZnA-IX-jej" userLabel="Picker">
+                                <rect key="frame" x="0.0" y="101" width="375" height="271"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             </pickerView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="k9n-yM-CZY">
@@ -94,7 +90,6 @@
                     <navigationItem key="navigationItem" title="Currency Exchange" id="zPW-OF-3EL"/>
                     <connections>
                         <outlet property="convertTextField" destination="k9n-yM-CZY" id="vRh-En-P2V"/>
-                        <outlet property="foreignPicker" destination="by5-eR-vYD" id="tWc-bn-y7h"/>
                         <outlet property="homePicker" destination="ZnA-IX-jej" id="vFK-nc-Pci"/>
                         <outlet property="resultLabel" destination="oKG-VP-zVU" id="8R1-0o-APu"/>
                         <segue destination="TT2-0k-pKX" kind="show" id="s7c-uC-AfF"/>
@@ -102,7 +97,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1PN-CO-MJA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="948" y="881.10944527736137"/>
+            <point key="canvasLocation" x="1158" y="878"/>
         </scene>
         <!--Favorite Currencies-->
         <scene sceneID="NNJ-gF-TVo">
@@ -144,7 +139,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ebB-AH-tOn" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="bVB-Ge-iFa" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1716" y="880"/>
+            <point key="canvasLocation" x="1914" y="878"/>
         </scene>
     </scenes>
 </document>
